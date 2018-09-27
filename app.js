@@ -40,6 +40,7 @@ app.post("/ghmobile", function(req, res) {
     // retrieve the signature from the header
     winston.info(req.body)
     var hash = req.headers["verif-hash"];
+    res.send('hello world')
     
     if(!hash) {
         // discard the request,only a post with rave signature header gets our attention 
@@ -63,8 +64,7 @@ app.post("/ghmobile", function(req, res) {
     // console.log(request_json);
     // winston.log(request_json);
     res.send({status:"success", data:request_json["flwRef"]});
-  });
-
+});
 
 app.listen(port, '', () => {
     console.log('App listening on port %s', port);
