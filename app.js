@@ -11,13 +11,6 @@ expressWinston.requestWhitelist.push('body');
 
 app.use(expressWinston.logger({
     transports: [
-        
-    ]
-}))
-
-
-app.use(expressWinston.logger({
-    transports: [
         new winston.transports.Console({
             json: true,
             colorize: true
@@ -43,7 +36,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send('Hello Loggly!'))
 
 
-app.post("/mpesa", function(req, res) {
+app.post("/ghmobile", function(req, res) {
     // retrieve the signature from the header
     winston.info(req.body)
     var hash = req.headers["verif-hash"];
