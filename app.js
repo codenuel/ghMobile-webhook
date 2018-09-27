@@ -3,18 +3,25 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 var winston  = require('winston');
+var expressWinston = require('express-winston');
+expressWinston.requestWhitelist.push('body');
 var {Loggly} = require('winston-loggly-bulk');
 
 process.env.SECRET_HASH = "MPESATEST"
 const port = process.env.PORT || 80
 app.set('port', port);
- 
- winston.add(new Loggly({
-    inputToken: "ac381028-bf71-46aa-95cf-0aa839749139",
-    subdomain: "ikediezendukwe",
-    tags: ["Winston-NodeJS"],
-    json:true
-}));
+
+app.use(expressWinston.logger({
+    transports: [
+        winston.add(new Loggly({
+            inputToken: "ac381028-bf71-46aa-95cf-0aa839749139",
+            subdomain: "ikediezendukwe",
+            tags: ["Winston-NodeJS"],
+            json:true
+        }))
+    ]
+}))
+
 app.use(bodyParser.urlencoded({extended:false, limit: '10mb'}));
 app.use(bodyParser.json());
 
