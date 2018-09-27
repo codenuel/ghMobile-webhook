@@ -11,13 +11,6 @@ expressWinston.requestWhitelist.push('body');
 
 app.use(expressWinston.logger({
     transports: [
-        
-    ]
-}))
-
-
-app.use(expressWinston.logger({
-    transports: [
         new winston.transports.Console({
             json: true,
             colorize: true
@@ -27,8 +20,8 @@ app.use(expressWinston.logger({
             level: 'info'
         }),
         winston.add(new Loggly({
-            inputToken: "ac381028-bf71-46aa-95cf-0aa839749139",
-            subdomain: "ikediezendukwe",
+            inputToken: "07ad75c3-e7f3-43df-8387-626f9982ee3c",
+            subdomain: "joshuakwaku",
             tags: ["Winston-NodeJS"],
             json:true
         }))
@@ -37,41 +30,42 @@ app.use(expressWinston.logger({
 
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({ extended:false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.get('/', (req, res) => res.send('Hello Loggly!'))
+app.get('/', (req, res) => res.send('Hello World!'))
 
-
-app.post("/mpesa", function(req, res) {
+app.post("/ghmobile", function(req, res) {
     // retrieve the signature from the header
-    winston.info(req.body)
+    winston.info(req.body);
     var hash = req.headers["verif-hash"];
+    // var data = req.body;
+    // console.log(data);
     
     if(!hash) {
         // discard the request,only a post with rave signature header gets our attention 
-        res.send({status: "error"});
+        // console.log("Hash not provided");
+        res.send({status:"error"});
         process.exit(0)
     }
     
-    // Get signature stored as env variable on your server
+    // // Get signature stored as env variable on your server
     const secret_hash = process.env.SECRET_HASH;
     
-    // check if signatures match
+    // // check if signatures match
     
     if(hash !== secret_hash) {
      // silently exit, or check that you are passing the write hash on your server.
-     res.send({status: "error"});
+    //  console.log("Hash not valid");
+     res.send({status:"error"});
      process.exit(0)
     }
     
     // Retrieve the request's body
     var request_json = req.body;
-    // console.log(request_json);
-    // winston.log(request_json);
+    // winston.log("info",request_json);
     res.send({status:"success", data:request_json["flwRef"]});
   });
-
 
 app.listen(port, '', () => {
     console.log('App listening on port %s', port);
