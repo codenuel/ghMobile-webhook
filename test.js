@@ -43,7 +43,7 @@ app.post("/ghmobile", function(req, res) {
     // console.log(data);
     
     if(!hash) {
-        // discard the request,only a post with rave signature header gets our attention 
+        // discard the request,only a post with rave signature header gets our attention.
         // console.log("Hash not provided");
         res.send({status:"error"});
         process.exit(0)
